@@ -12,27 +12,51 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
 $("#add").on("click", function (event) {
-event.preventDefault();
-documentURL = $("#urlAddress").val()
-console.log(documentURL);
-hashTags = $("#hashTags").val()
+  event.preventDefault();
+  documentURL = $("#urlAddress").val();
+  hashTags = $("#hashTags").val().split("#")
+ var tagNum = 1;
+  for (let i=1; i<hashTags.length; i++){
+  //   console.log(hashTags[i]);
+  //   console.log(tagNum++);
+  
+}
+
+
+
 var urlInput = {
   urlAddress: documentURL,
-  hashTags: hashTags
+  hashTags: hashTags,
+  // tagNum
+  // data_state: dataState
 }
 $("#urlAddress").val("");
+$("#hashTags").val("")
 database.ref("URL_Inputs").push(urlInput)
 })
 
 database.ref("URL_Inputs").on("child_added", function(childSnapshot){
   fbURL = childSnapshot.val().urlAddress
   fbTags = childSnapshot.val().hashTags
-  var div = $("<div>")
+  var div = $("<div class='card'>")
+  var br = $("<br>")
   div.append(fbURL)
+  div.append(br)
   div.append(fbTags)
+  div.attr("data_state", "off")
   console.log(fbURL);
   console.log(fbTags);
   $("#displayArea").prepend(div);
 
 
 })
+
+// function addResource (arg1, arg2, arg3){
+//   //make this a constructor function
+//   this.name = name;
+//   this.effort = effort;
+//   this.grade = grade;
+//   this.finalreview = function() {
+
+//   }
+// }
