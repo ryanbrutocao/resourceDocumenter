@@ -11,6 +11,41 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
+function populateCategory (){
+  database.ref("Categories").on("child_added", function(childSnapshot){
+  populateCat = childSnapshot.val().category
+  console.log(populateCat);
+  var option = $("<option>" + populateCat+ "</option>")
+  option.attr("value", populateCat)
+  $(".categoryList").append(option)
+  })
+}
+populateCategory()
+
+var hashTags;
+$(".category").on("click", ".addCategory", function(){
+ 
+newCategory()
+
+})  
+//adds a new category card to the page
+function newCategory() {
+  event.preventDefault();
+  var categoryText = $("#categoryText").val();
+  var newCategory = {
+    category: categoryText
+  }
+  database.ref("Categories").push(newCategory)
+  $("#categoryText").val("");
+
+  // var div = $("<div class='card'>")
+  // var h4 = $("<h4>")
+  // h4.append(categoryHeadline)
+  // div.append(h4)
+  // $(".categorySort").append(div)
+}
+
+
 $("#add").on("click", function (event) {
   event.preventDefault();
   documentURL = $("#urlAddress").val();
@@ -22,8 +57,6 @@ $("#add").on("click", function (event) {
   
 }
 
-
-
 var urlInput = {
   urlAddress: documentURL,
   hashTags: hashTags,
@@ -31,7 +64,7 @@ var urlInput = {
   // data_state: dataState
 }
 $("#urlAddress").val("");
-$("#hashTags").val("")
+$("#hashTags").val("");
 database.ref("URL_Inputs").push(urlInput)
 })
 
@@ -43,7 +76,7 @@ database.ref("URL_Inputs").on("child_added", function(childSnapshot){
   div.append(fbURL)
   div.append(br)
   div.append(fbTags)
-  div.attr("data_state", "off")
+  // div.attr("data_state", "off")
   console.log(fbURL);
   console.log(fbTags);
   $("#displayArea").prepend(div);
@@ -51,6 +84,7 @@ database.ref("URL_Inputs").on("child_added", function(childSnapshot){
 
 })
 
+console.log(hashTags);
 // function addResource (arg1, arg2, arg3){
 //   //make this a constructor function
 //   this.name = name;

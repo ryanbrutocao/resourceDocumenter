@@ -16,10 +16,24 @@
 
 
   This is a place to permanently log helpful resources as well as a brief description including tags for sorting/searching <br>
-<input type="text" id="urlAddress" placeholder="Place URL Here">
-<input type="text" id="hashTags" placeholder="# Add tags">
-<input type="submit" id="add" value="Document Resource">
+ <div class="category">
 
+   <input type="text" id="categoryText" placeholder="Category">
+   <input type="submit" class="addCategory" value="Add a new category">
+   <br>
+  </div>
+
+  <input type="text" id="urlAddress" placeholder="Place URL Here">
+<input type="text" id="hashTags" placeholder="# Add tags">
+<form  >
+  <select name="Categories" class="categoryList">
+    <!-- <option value="volvo">Volvo XC90</option> -->
+    
+  </select>
+  <!-- <input type="submit" value="Submit"> -->
+  </form>
+
+<input type="submit" id="add" value="Document Resource">
 display urls here
 <div><span id="displayArea">
 
@@ -27,12 +41,17 @@ display urls here
 </span>
 </div>
 
-ultimately, I want this to be searchable by topic
+<!-- ultimately, I want this to be searchable by topic
 <br>
 
 can submit a topic and it will automatically display on that section<br>
-but also will display all results that match a searched term
+but also will display all results that match a searched term -->
 
+
+<div class="categorySort">
+here is the category section
+
+</div>
 
 <script src="./app.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
