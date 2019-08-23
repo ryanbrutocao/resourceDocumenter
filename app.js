@@ -10,7 +10,9 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
+var hashTags;
 
+//on page load: populates categories menu and page from Firebase list
 function populateCategory (){
   database.ref("Categories").on("child_added", function(childSnapshot){
   populateCat = childSnapshot.val().category
@@ -18,17 +20,24 @@ function populateCategory (){
   var option = $("<option>" + populateCat+ "</option>")
   option.attr("value", populateCat)
   $(".categoryList").append(option)
+  var div = $("<div class='card'>")
+
+
+  var h4 = $("<h4>")
+  h4.append(populateCat)
+  div.append(h4)
+  div.attr("id",populateCat)
+  $(".categorySort").append(div)
   })
 }
 populateCategory()
 
-var hashTags;
+// on button click, adds a new category to the category dropdown
 $(".category").on("click", ".addCategory", function(){
- 
 newCategory()
-
 })  
-//adds a new category card to the page
+
+//function that adds a new category to the dropdown
 function newCategory() {
   event.preventDefault();
   var categoryText = $("#categoryText").val();
@@ -37,31 +46,24 @@ function newCategory() {
   }
   database.ref("Categories").push(newCategory)
   $("#categoryText").val("");
-
-  // var div = $("<div class='card'>")
-  // var h4 = $("<h4>")
-  // h4.append(categoryHeadline)
-  // div.append(h4)
-  // $(".categorySort").append(div)
 }
+
+
 
 
 $("#add").on("click", function (event) {
   event.preventDefault();
-  documentURL = $("#urlAddress").val();
-  hashTags = $("#hashTags").val().split("#")
- var tagNum = 1;
-  for (let i=1; i<hashTags.length; i++){
-  //   console.log(hashTags[i]);
-  //   console.log(tagNum++);
-  
-}
+  documentURL = $("#urlAddress").val().toString();
+  hashTags = $("#hashTags").val()
+  category = $(".categoryList").val()
+
+// console.log(documentURL);
 
 var urlInput = {
   urlAddress: documentURL,
   hashTags: hashTags,
-  // tagNum
-  // data_state: dataState
+  category: category,
+
 }
 $("#urlAddress").val("");
 $("#hashTags").val("");
@@ -71,7 +73,9 @@ database.ref("URL_Inputs").push(urlInput)
 database.ref("URL_Inputs").on("child_added", function(childSnapshot){
   fbURL = childSnapshot.val().urlAddress
   fbTags = childSnapshot.val().hashTags
+  fbCatRef = childSnapshot.val().category
   var div = $("<div class='card'>")
+  div.addClass(fbCatRef)
   var br = $("<br>")
   div.append(fbURL)
   div.append(br)
@@ -79,18 +83,17 @@ database.ref("URL_Inputs").on("child_added", function(childSnapshot){
   // div.attr("data_state", "off")
   console.log(fbURL);
   console.log(fbTags);
-  $("#displayArea").prepend(div);
 
+
+
+  // -----------
+// var zebra = $(".categoryList").val()
+// console.log("zebra: ", zebra);
+ 
+//   $('data-val='+"zebra").append(div)
+  $("#"+fbCatRef).append(div);
+// -----------------
 
 })
 
 console.log(hashTags);
-// function addResource (arg1, arg2, arg3){
-//   //make this a constructor function
-//   this.name = name;
-//   this.effort = effort;
-//   this.grade = grade;
-//   this.finalreview = function() {
-
-//   }
-// }
