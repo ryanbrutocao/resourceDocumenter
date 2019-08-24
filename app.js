@@ -48,52 +48,35 @@ function newCategory() {
   $("#categoryText").val("");
 }
 
-
-
-
+// click event adds values to Firebase and reset's display values
 $("#add").on("click", function (event) {
   event.preventDefault();
   documentURL = $("#urlAddress").val().toString();
-  hashTags = $("#hashTags").val()
+  hashTags = $("#hashTags").val().split(" ")//breaks the hashtags apart on each space
   category = $(".categoryList").val()
-
-// console.log(documentURL);
 
 var urlInput = {
   urlAddress: documentURL,
   hashTags: hashTags,
   category: category,
-
 }
 $("#urlAddress").val("");
 $("#hashTags").val("");
 database.ref("URL_Inputs").push(urlInput)
 })
 
+// grabs values from Firebase and displays them to the screen
 database.ref("URL_Inputs").on("child_added", function(childSnapshot){
   fbURL = childSnapshot.val().urlAddress
   fbTags = childSnapshot.val().hashTags
   fbCatRef = childSnapshot.val().category
+  var br = $("<br>")
   var div = $("<div class='card'>")
   div.addClass(fbCatRef)
-  var br = $("<br>")
   div.append(fbURL)
   div.append(br)
   div.append(fbTags)
-  // div.attr("data_state", "off")
-  console.log(fbURL);
-  console.log(fbTags);
 
-
-
-  // -----------
-// var zebra = $(".categoryList").val()
-// console.log("zebra: ", zebra);
- 
-//   $('data-val='+"zebra").append(div)
   $("#"+fbCatRef).append(div);
-// -----------------
-
 })
 
-console.log(hashTags);
